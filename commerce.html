@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Commerce Subject Selector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fefbe9;
+      padding: 20px;
+      max-width: 400px;
+      margin: 40px auto;
+      border: 2px solid #ff9900;
+      border-radius: 10px;
+      text-align: center;
+      color: #5c3d00;
+    }
+    p.hi {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #7a4e00;
+      font-family: cursive;
+    }
+    h2 {
+      font-size: 1.3em;
+      color: #5c3d00;
+      margin-bottom: 20px;
+    }
+    form {
+      text-align: left;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    label.option-label {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 10px 15px;
+      border: 2px solid #ff9900;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1.1em;
+      color: #5c3d00;
+    }
+    label.option-label:hover {
+      background-color: #fff3d1;
+    }
+    input[type="checkbox"] {
+      transform: scale(1.3);
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 30px;
+      font-size: 1.2em;
+      background-color: #ff9900;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      width: 100%;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button:hover {
+      background-color: #cc7a00;
+    }
+    #careerSection {
+      margin-top: 30px;
+      text-align: left;
+      display: none;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #5c3d00;
+    }
+    #careerSection h3 {
+      color: #7a4e00;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 15px;
+      background: #ffffff;
+      border: 1px solid #ff9900;
+      border-radius: 6px;
+      padding: 10px 15px;
+    }
+    .career-title a {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #ff9900;
+      text-decoration: none;
+    }
+    .career-title a:hover {
+      text-decoration: underline;
+    }
+    .career-desc {
+      font-size: 0.95em;
+      margin-top: 5px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <p class="hi">Hello, explorer! Let's find your commerce future!</p>
+  <h2>Pick at least 3 commerce-related subjects (Accounts is must!)</h2>
+
+  <form id="subjectForm">
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Accounts" /> Accounts *
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Business Studies" /> Business Studies
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Economics" /> Economics
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Mathematics" /> Mathematics
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Entrepreneurship" /> Entrepreneurship
+    </label>
+    <button type="submit">See My Career Options</button>
+  </form>
+
+  <div id="careerSection">
+    <h3>Your possible career options:</h3>
+    <ul id="careerList"></ul>
+  </div>
+
+  <script>
+    const subjectToCareers = {
+      Accounts: ["Chartered Accountant", "Company Secretary", "Financial Planner", "Banker"],
+      "Business Studies": ["Entrepreneur", "Marketing Manager", "Business Analyst"],
+      Economics: ["Economist", "Actuary", "Investment Banker"],
+      Mathematics: ["Actuary", "Investment Banker", "Business Analyst"],
+      Entrepreneurship: ["Entrepreneur", "Marketing Manager"]
+    };
+
+    const careerDescriptions = {
+      "Chartered Accountant": "Manages financial accounts, audits, and taxation.",
+      "Company Secretary": "Ensures company compliance with legal and regulatory standards.",
+      "Investment Banker": "Helps companies raise capital and manage financial assets.",
+      "Economist": "Analyzes market trends and economic data for policymaking or strategy.",
+      "Actuary": "Calculates risks using mathematics and statistics, often in insurance.",
+      "Business Analyst": "Uses data to improve business processes and decisions.",
+      "Marketing Manager": "Promotes products and brands to increase sales and visibility.",
+      "Entrepreneur": "Starts and runs their own business venture.",
+      "Financial Planner": "Advises individuals on budgeting, investing, and saving.",
+      "Banker": "Manages customer accounts, loans, and financial services."
+    };
+
+    const careerExams = {
+      "Chartered Accountant": ["CA Foundation", "CA Intermediate", "Final CA"],
+      "Company Secretary": ["CSEET", "Executive", "Professional"],
+      "Investment Banker": ["CAT", "CFA", "MBA Entrance (IIMs, FMS, etc.)"],
+      "Economist": ["CUET", "DUET", "UPSC (IES)"],
+      "Actuary": ["ACET", "IFOA Exams"],
+      "Business Analyst": ["CAT", "GMAT", "Company-specific tests"],
+      "Marketing Manager": ["CAT", "NMAT", "XAT"],
+      "Entrepreneur": ["No specific exam", "Startup India Programs"],
+      "Financial Planner": ["CFP", "NISM"],
+      "Banker": ["IBPS PO", "SBI PO", "RBI Grade B"]
+    };
+
+    const careerColleges = {
+      "Chartered Accountant": ["ICAI", "Christ University", "SRCC"],
+      "Company Secretary": ["ICSI", "Delhi University", "NMIMS"],
+      "Investment Banker": ["IIM Ahmedabad", "FMS Delhi", "XLRI"],
+      "Economist": ["Delhi School of Economics", "Ashoka University", "ISI Kolkata"],
+      "Actuary": ["Institute of Actuaries of India", "Amity University", "Christ University"],
+      "Business Analyst": ["IIMs", "IIFT", "Symbiosis"],
+      "Marketing Manager": ["IIMs", "NMIMS", "SIBM"],
+      "Entrepreneur": ["IIT Madras (Entrepreneurship Cell)", "IIM Bangalore NSRCEL"],
+      "Financial Planner": ["FLAME University", "ICoFP", "NISM"],
+      "Banker": ["Delhi University", "Jamia Millia Islamia", "Banking Training Institutes"]
+    };
+
+    document.getElementById("subjectForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(el => el.value);
+
+      if (!selected.includes("Accounts")) {
+        alert("Oops! 'Accounts' is a required subject.");
+        return;
+      }
+
+      if (selected.length < 3) {
+        alert("Please pick at least 3 subjects to continue.");
+        return;
+      }
+
+      const careerSet = new Set();
+      selected.forEach(subject => {
+        if (subjectToCareers[subject]) {
+          subjectToCareers[subject].forEach(career => careerSet.add(career));
+        }
+      });
+
+      const careerList = document.getElementById("careerList");
+      careerList.innerHTML = "";
+
+      [...careerSet].sort().forEach(career => {
+        const li = document.createElement("li");
+
+        const title = document.createElement("div");
+        title.className = "career-title";
+        const link = document.createElement("a");
+        link.href = `https://www.google.com/search?q=${encodeURIComponent(career + " career")}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = career;
+        title.appendChild(link);
+
+        const desc = document.createElement("div");
+        desc.className = "career-desc";
+        desc.textContent = careerDescriptions[career] || "Description coming soon.";
+        li.appendChild(title);
+        li.appendChild(desc);
+
+        const examInfo = document.createElement("div");
+        examInfo.className = "career-desc";
+        const exams = careerExams[career];
+        examInfo.innerHTML = exams ? `<strong>Entrance Exams:</strong> ${exams.join(", ")}` : "Entrance exams info coming soon.";
+        li.appendChild(examInfo);
+
+        const collegeInfo = document.createElement("div");
+        collegeInfo.className = "career-desc";
+        const colleges = careerColleges[career];
+        collegeInfo.innerHTML = colleges ? `<strong>Top Colleges:</strong> ${colleges.join(", ")}` : "Top colleges info coming soon.";
+        li.appendChild(collegeInfo);
+
+        careerList.appendChild(li);
+      });
+
+      document.getElementById("careerSection").style.display = "block";
+    });
+  </script>
+</body>
+</html>

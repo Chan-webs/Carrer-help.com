@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Science Subject Selector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      padding: 20px;
+      max-width: 400px;
+      margin: 40px auto;
+      border: 2px solid #4a90e2;
+      border-radius: 10px;
+      text-align: center;
+      color: #34495e;
+    }
+    p.hi {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #2c3e50;
+      font-family: cursive;
+    }
+    h2 {
+      font-size: 1.3em;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    form {
+      text-align: left;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    label.option-label {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 10px 15px;
+      border: 2px solid #4a90e2;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1.1em;
+      color: #34495e;
+    }
+    label.option-label:hover {
+      background-color: #e6f0fa;
+    }
+    input[type="checkbox"] {
+      transform: scale(1.3);
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 30px;
+      font-size: 1.2em;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      width: 100%;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button:hover {
+      background-color: #357abd;
+    }
+    #careerSection {
+      margin-top: 30px;
+      text-align: left;
+      display: none;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #34495e;
+    }
+    #careerSection h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 20px;
+      background: #ffffff;
+      border: 1px solid #4a90e2;
+      border-radius: 6px;
+      padding: 15px 20px;
+    }
+    .career-title a {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #4a90e2;
+      text-decoration: none;
+    }
+    .career-title a:hover {
+      text-decoration: underline;
+    }
+    .career-desc {
+      font-size: 0.95em;
+      margin-top: 5px;
+      color: #555;
+    }
+    .career-exams,
+    .career-colleges {
+      font-size: 0.9em;
+      margin-top: 8px;
+      color: #2c3e50;
+    }
+    .career-exams strong,
+    .career-colleges strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #4a90e2;
+    }
+  </style>
+</head>
+<body>
+  <p class="hi">Hello, friend! Ready to find your science path?</p>
+  <h2>Pick at least 4 science subjects you like (Physics & Chemistry are must!)</h2>
+
+  <form id="subjectForm">
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Physics" /> Physics *
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Chemistry" /> Chemistry *
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Biology" /> Biology
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Mathematics" /> Mathematics
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Computer Science" /> Computer Science
+    </label>
+    <label class="option-label">
+      <input type="checkbox" name="subjects" value="Environmental Science" /> Environmental Science
+    </label>
+    <button type="submit">See My Career Options</button>
+  </form>
+
+  <div id="careerSection">
+    <h3>Your possible career options:</h3>
+    <ul id="careerList"></ul>
+  </div>
+
+  <script>
+    const subjectToCareers = {
+      Physics: ["Physicist", "Aerospace Engineer", "Data Scientist", "Astronomer", "Robotics Engineer"],
+      Chemistry: ["Pharmacist", "Chemical Engineer", "Forensic Scientist", "Toxicologist"],
+      Biology: ["Doctor", "Geneticist", "Biotechnologist", "Marine Biologist"],
+      Mathematics: ["Actuary", "Statistician", "Machine Learning Engineer", "Economist"],
+      "Computer Science": ["Software Developer", "Cybersecurity Expert", "Game Designer", "AI Engineer"],
+      "Environmental Science": ["Environmental Consultant", "Sustainability Analyst", "Conservationist"],
+    };
+
+    const careerDescriptions = {
+      Physicist: "Studies matter and energy to understand the universe's laws.",
+      "Aerospace Engineer": "Designs aircraft, spacecraft, satellites, and missiles.",
+      "Data Scientist": "Analyzes large data sets to help make business or research decisions.",
+      Astronomer: "Studies celestial bodies like stars, planets, and galaxies.",
+      "Robotics Engineer": "Builds and maintains robots and automation systems.",
+      Pharmacist: "Prepares and dispenses medications, advises on their safe use.",
+      "Chemical Engineer": "Applies chemistry to design processes for large-scale manufacturing.",
+      "Forensic Scientist": "Analyzes crime scene evidence for criminal investigations.",
+      Toxicologist: "Studies effects of chemicals on humans, animals, and the environment.",
+      Doctor: "Diagnoses and treats illnesses to improve patients’ health.",
+      Geneticist: "Researches genes and genetic variation in living organisms.",
+      Biotechnologist: "Uses biology and tech to develop useful products.",
+      "Marine Biologist": "Studies ocean organisms and their ecosystems.",
+      Actuary: "Uses statistics to calculate risk for insurance and finance.",
+      Statistician: "Applies mathematical techniques to analyze and interpret data.",
+      "Machine Learning Engineer": "Builds systems that can learn and improve from data.",
+      Economist: "Analyzes economic trends to guide policies and decisions.",
+      "Software Developer": "Designs and builds computer applications and systems.",
+      "Cybersecurity Expert": "Protects networks and systems from digital attacks.",
+      "Game Designer": "Creates the concept, story, and mechanics of games.",
+      "AI Engineer": "Builds artificial intelligence systems and tools.",
+      "Environmental Consultant": "Advises on environmental best practices and policies.",
+      "Sustainability Analyst": "Helps businesses improve environmental and social impact.",
+      Conservationist: "Works to protect and restore natural habitats.",
+    };
+
+    // New data: entrance exams and top colleges for careers
+    const careerExams = {
+      Physicist: ["JEE Advanced (Physics)", "IISER Entrance", "BITSAT"],
+      "Aerospace Engineer": ["JEE Advanced", "ISRO Recruitment"],
+      "Data Scientist": ["GATE (CS/Statistics)", "IIT JAM (Mathematics)"],
+      Astronomer: ["JEE Advanced", "IISER Entrance", "CSIR-UGC NET"],
+      "Robotics Engineer": ["JEE Advanced", "IIT JAM", "BITSAT"],
+      Pharmacist: ["GPAT", "NEET", "AIIMS Entrance"],
+      "Chemical Engineer": ["JEE Advanced", "BITSAT", "IISER Entrance"],
+      "Forensic Scientist": ["UPSC CDS", "State Public Service Exams"],
+      Toxicologist: ["NEET", "JEE Advanced (Chemistry)"],
+      Doctor: ["NEET", "AIIMS Entrance"],
+      Geneticist: ["JEE Advanced", "IISER Entrance"],
+      Biotechnologist: ["JEE Advanced", "IISER Entrance", "BITSAT"],
+      "Marine Biologist": ["IISER Entrance", "JEE Advanced"],
+      Actuary: ["SOA Exam", "JEE Advanced (Mathematics)"],
+      Statistician: ["IIT JAM (Statistics)", "GATE (Statistics)"],
+      "Machine Learning Engineer": ["GATE (CS)", "JEE Advanced", "BITSAT"],
+      Economist: ["JNU Entrance", "IIT JAM (Economics)"],
+      "Software Developer": ["JEE Advanced", "NIT Entrance", "BITSAT"],
+      "Cybersecurity Expert": ["JEE Advanced", "GATE (CS)", "ISACA Certifications"],
+      "Game Designer": ["NID Entrance", "JEE Advanced", "BITSAT"],
+      "AI Engineer": ["GATE (CS)", "JEE Advanced", "IISER Entrance"],
+      "Environmental Consultant": ["IISER Entrance", "JEE Advanced"],
+      "Sustainability Analyst": ["IISER Entrance", "JNU Entrance"],
+      Conservationist: ["IISER Entrance", "Forest Service Exams"],
+    };
+
+    const careerColleges = {
+      Physicist: ["IISER Pune", "IIT Bombay", "IIT Kanpur"],
+      "Aerospace Engineer": ["IIT Madras", "IISc Bangalore", "IIT Bombay"],
+      "Data Scientist": ["IIT Delhi", "IIT Bombay", "IISc Bangalore"],
+      Astronomer: ["IISER Pune", "IIT Kanpur", "IIT Bombay"],
+      "Robotics Engineer": ["IIT Bombay", "IIT Delhi", "BITS Pilani"],
+      Pharmacist: ["Jamia Hamdard", "AIIMS Delhi", "Manipal University"],
+      "Chemical Engineer": ["IIT Kanpur", "IIT Madras", "IIT Delhi"],
+      "Forensic Scientist": ["NFSU Delhi", "Delhi University", "Jamia Millia Islamia"],
+      Toxicologist: ["AIIMS Delhi", "IIT Bombay", "IIT Kanpur"],
+      Doctor: ["AIIMS Delhi", "Christian Medical College", "JIPMER"],
+      Geneticist: ["IISER Pune", "IIT Kanpur", "IIT Bombay"],
+      Biotechnologist: ["IISER Pune", "IIT Delhi", "BITS Pilani"],
+      "Marine Biologist": ["IISER Kolkata", "NIO Goa", "Annamalai University"],
+      Actuary: ["IIT Bombay", "IIT Delhi", "University of Mumbai"],
+      Statistician: ["IIT Kanpur", "IISc Bangalore", "University of Delhi"],
+      "Machine Learning Engineer": ["IIT Bombay", "IIT Delhi", "BITS Pilani"],
+      Economist: ["Jawaharlal Nehru University", "IIT Bombay", "IIT Delhi"],
+      "Software Developer": ["IIT Bombay", "NIT Trichy", "BITS Pilani"],
+      "Cybersecurity Expert": ["IIT Delhi", "IIT Bombay", "IIIT Hyderabad"],
+      "Game Designer": ["NID Ahmedabad", "IIT Bombay", "MIT Pune"],
+      "AI Engineer": ["IIT Bombay", "IISc Bangalore", "IIT Delhi"],
+      "Environmental Consultant": ["IISER Pune", "IIT Delhi", "Jawaharlal Nehru University"],
+      "Sustainability Analyst": ["IISER Pune", "JNU Delhi", "TERI University"],
+      Conservationist: ["IISER Pune", "Wildlife Institute of India", "Forest Research Institute"],
+    };
+
+    document.getElementById("subjectForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(
+        (el) => el.value
+      );
+
+      const hasPhysics = selected.includes("Physics");
+      const hasChemistry = selected.includes("Chemistry");
+
+      if (!hasPhysics || !hasChemistry) {
+        alert("Oops! Physics and Chemistry are both required.");
+        return;
+      }
+
+      if (selected.length < 4) {
+        alert("Please pick at least 4 subjects to continue.");
+        return;
+      }
+
+      const careerSet = new Set();
+      selected.forEach((subject) => {
+        if (subjectToCareers[subject]) {
+          subjectToCareers[subject].forEach((career) => careerSet.add(career));
+        }
+      });
+
+      const careerList = document.getElementById("careerList");
+      careerList.innerHTML = "";
+      [...careerSet]
+        .sort()
+        .forEach((career) => {
+          const li = document.createElement("li");
+
+          const title = document.createElement("div");
+          title.className = "career-title";
+          const link = document.createElement("a");
+          link.href = `https://www.google.com/search?q=${encodeURIComponent(career + " career")}`;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = career;
+          title.appendChild(link);
+
+          const desc = document.createElement("div");
+          desc.className = "career-desc";
+          desc.textContent = careerDescriptions[career] || "Description coming soon.";
+
+          // Entrance exams
+          const exams = careerExams[career] || [];
+          const examDiv = document.createElement("div");
+          examDiv.className = "career-exams";
+          if (exams.length > 0) {
+            examDiv.innerHTML = `<strong>Entrance Exams:</strong> ${exams.join(", ")}`;
+          } else {
+            examDiv.innerHTML = `<strong>Entrance Exams:</strong> Info coming soon.`;
+          }
+
+          // Top colleges
+          const colleges = careerColleges[career] || [];
+          const collegeDiv = document.createElement("div");
+          collegeDiv.className = "career-colleges";
+          if (colleges.length > 0) {
+            collegeDiv.innerHTML = `<strong>Top Colleges:</strong> ${colleges.join(", ")}`;
+          } else {
+            collegeDiv.innerHTML = `<strong>Top Colleges:</strong> Info coming soon.`;
+          }
+
+          li.appendChild(title);
+          li.appendChild(desc);
+          li.appendChild(examDiv);
+          li.appendChild(collegeDiv);
+
+          careerList.appendChild(li);
+        });
+
+      document.getElementById("careerSection").style.display = "block";
+    });
+  </script>
+</body>
+</html>
